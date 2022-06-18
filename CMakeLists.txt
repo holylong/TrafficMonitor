@@ -4,9 +4,11 @@ project(TrafficMonitor)
 
 # enabled cxx 11
 set(CMAKE_CXX_STANDARD 11)
-
+# enable mfc
 ADD_DEFINITIONS(-D_AFXDLL)
 SET(CMAKE_MFC_FLAG 2)
+
+add_subdirectory(OpenHardwareMonitorApi)
 
 file(GLOB traffic_SRC ${CMAKE_CURRENT_SOURCE_DIR}/include/PluginInterface.h
                     ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/AboutDlg.h
@@ -182,7 +184,10 @@ add_executable(trafficmonitor ${traffic_SRC})
 
 target_include_directories(trafficmonitor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
+#support unicode
 target_compile_definitions(trafficmonitor PRIVATE _AFXDLL _UNICODE UNICODE)
+
+target_link_libraries(trafficmonitor PRIVATE hardwaremonitor)
 # set_target_properties(trafficmonitor PROPERTIES
 #     COMPILE_DEFINITIONS _AFXDLL,_UNICODE,UNICODE,_BIND_TO_CURRENT_CRT_VERSION,_BIND_TO_CURRENT_MFC_VERSION
 #     LINK_FLAGS "/ENTRY:\"wWinMainCRTStartup\"")
