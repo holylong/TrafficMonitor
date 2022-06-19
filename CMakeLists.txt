@@ -183,7 +183,9 @@ file(GLOB traffic_SRC ${CMAKE_CURRENT_SOURCE_DIR}/include/PluginInterface.h
 add_executable(trafficmonitor ${traffic_SRC})
 
 target_include_directories(trafficmonitor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/)
-
+IF(MSVC)
+    SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
+ENDIF(MSVC)
 #support unicode
 target_compile_definitions(trafficmonitor PRIVATE _AFXDLL _UNICODE UNICODE)
 

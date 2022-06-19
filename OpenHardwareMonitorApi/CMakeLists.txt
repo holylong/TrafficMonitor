@@ -4,17 +4,16 @@ project(hardwaremonitor)
 
 option(ENABLE_DEBUG "debug switch" ON)
 
-# add_definitions(-DOPENHARDWAREMONITOR_EXPORTS)
+add_definitions(-DOPENHARDWAREMONITOR_EXPORTS)
 
-file(GLOB harewaremonitor_SRC ${CMAKE_CURRENT_SOURCE_DIR}/OpenHarewareMonitorImp.cpp
-                              ${CMAKE_CURRENT_SOURCE_DIR}/OpenHarewareMonitorImp.h
+file(GLOB harewaremonitor_SRC ${CMAKE_CURRENT_SOURCE_DIR}/OpenHardwareMonitorImp.cpp
+                              ${CMAKE_CURRENT_SOURCE_DIR}/OpenHardwareMonitorImp.h
                               ${CMAKE_CURRENT_SOURCE_DIR}/UpdateVisitor.cpp
                               ${CMAKE_CURRENT_SOURCE_DIR}/UpdateVisitor.h
                               ${CMAKE_CURRENT_SOURCE_DIR}/app.rc)
 
-# add_library(${PROJECT_NAME} SHARED ${harewaremonitor_SRC})
-add_library(${PROJECT_NAME} STATIC ${harewaremonitor_SRC})
-
+add_library(${PROJECT_NAME} SHARED ${harewaremonitor_SRC})
+# add_library(${PROJECT_NAME} STATIC ${harewaremonitor_SRC})
 
 # c#library
 add_library(LibreHardwareMonitorLib SHARED IMPORTED)
