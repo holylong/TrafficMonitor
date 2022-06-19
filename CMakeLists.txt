@@ -190,6 +190,22 @@ ENDIF(MSVC)
 target_compile_definitions(trafficmonitor PRIVATE _AFXDLL _UNICODE UNICODE)
 
 target_link_libraries(trafficmonitor PRIVATE hardwaremonitor)
+
+#copy resources  vcxproj run
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION ${CMAKE_BINARY_DIR})
+#copy resources binary dir
+if(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+elseif(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Release"))
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION "${CMAKE_BINARY_DIR}/Release")
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Release")
+else()
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+endif()
+
 # set_target_properties(trafficmonitor PROPERTIES
 #     COMPILE_DEFINITIONS _AFXDLL,_UNICODE,UNICODE,_BIND_TO_CURRENT_CRT_VERSION,_BIND_TO_CURRENT_MFC_VERSION
 #     LINK_FLAGS "/ENTRY:\"wWinMainCRTStartup\"")
