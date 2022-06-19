@@ -8,7 +8,14 @@
 Traffic Monitor是一款用于Windows平台的网速监控悬浮窗软件，可以显示当前网速、CPU及内存利用率，支持嵌入到任务栏显示，支持更换皮肤、历史流量统计等功能。
 
 # ChangeLog
-* 1.增加了cmake构建方式不在不在需要重复修改vs版本(2022-06-19)
+* 1.增加了cmake构建方式不再需要修改vs版本(2022-06-19)
+```
+  mkdir build_vs
+  cd build_vs
+  cmake -G"Visual Studio 15 2017 Win64" ..
+  cd build_vs/Debug
+  trafficmonitor.exe
+```
 
 # 相关链接：
 
