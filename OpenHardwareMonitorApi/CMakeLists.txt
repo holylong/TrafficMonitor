@@ -4,7 +4,7 @@ project(hardwaremonitor)
 
 option(ENABLE_DEBUG "debug switch" ON)
 
-
+# add_definitions(-DOPENHARDWAREMONITOR_EXPORTS)
 
 file(GLOB harewaremonitor_SRC ${CMAKE_CURRENT_SOURCE_DIR}/OpenHarewareMonitorImp.cpp
                               ${CMAKE_CURRENT_SOURCE_DIR}/OpenHarewareMonitorImp.h
@@ -12,7 +12,8 @@ file(GLOB harewaremonitor_SRC ${CMAKE_CURRENT_SOURCE_DIR}/OpenHarewareMonitorImp
                               ${CMAKE_CURRENT_SOURCE_DIR}/UpdateVisitor.h
                               ${CMAKE_CURRENT_SOURCE_DIR}/app.rc)
 
-add_library(hardwaremonitor SHARED ${harewaremonitor_SRC})
+# add_library(${PROJECT_NAME} SHARED ${harewaremonitor_SRC})
+add_library(${PROJECT_NAME} STATIC ${harewaremonitor_SRC})
 
 
 # c#library
@@ -23,7 +24,7 @@ LIST(APPEND VS_DOTNET_REFERENCES "System")
 LIST(APPEND VS_DOTNET_REFERENCES "System.Xml")
 LIST(APPEND VS_DOTNET_REFERENCES "System.Data")
 
-set_target_properties(LibreHardwareMonitorLib PROPERTIES
+set_target_properties(${PROJECT_NAME}  PROPERTIES
     VS_DOTNET_REFERENCES "${VS_DOTNET_REFERENCES}"
     VS_DOTNET_REFERENCE_LibreHardwareMonitorLib "${CMAKE_CURRENT_SOURCE_DIR}/LibreHardwareMonitorLib.dll")
 
@@ -37,7 +38,7 @@ set_target_properties(LibreHardwareMonitorLib PROPERTIES
 target_compile_options(${PROJECT_NAME} PRIVATE /clr)
 target_compile_options(${PROJECT_NAME} PRIVATE /fp:precise) # /fp:strict is
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY VS_GLOBAL_ROOTNAMESPACE ${project_name})
+set_property(TARGET ${PROJECT_NAME} PROPERTY VS_GLOBAL_ROOTNAMESPACE ${PROJECT_NAME})
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_GLOBAL_KEYWORD "ManagedCProj")
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_GLOBAL_CLRSupport "true")
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "4.7.2")
@@ -55,6 +56,6 @@ string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
 
 # set_target_properties(LibreHardwareMonitorLib PROPERTIES IMPORTED_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/LibreHardwareMonitorLib.dll")
 
-target_include_directories(hardwaremonitor PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/include)
 
-target_link_libraries(hardwaremonitor PRIVATE LibreHardwareMonitorLib)
+# target_link_libraries(hardwaremonitor PRIVATE LibreHardwareMonitorLib)
