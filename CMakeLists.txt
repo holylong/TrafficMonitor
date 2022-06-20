@@ -10,6 +10,9 @@ SET(CMAKE_MFC_FLAG 2)
 
 add_subdirectory(OpenHardwareMonitorApi)
 
+string(TIMESTAMP COMPILE_TIME %Y%m%d_%H%M%S)
+message(STATUS "==>> ${COMPILE_TIME}")
+
 file(GLOB traffic_SRC ${CMAKE_CURRENT_SOURCE_DIR}/include/PluginInterface.h
                     ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/AboutDlg.h
                     ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/AdapterCommon.h
@@ -193,18 +196,28 @@ target_link_libraries(trafficmonitor PRIVATE hardwaremonitor)
 
 #copy resources  vcxproj run
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION ${CMAKE_BINARY_DIR})
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION ${CMAKE_BINARY_DIR})
+# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION ${CMAKE_BINARY_DIR})
 #copy resources binary dir
 if(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION "${CMAKE_BINARY_DIR}/Debug")
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Debug")
 elseif(CMAKE_BUILD_TYPE AND (CMAKE_BUILD_TYPE STREQUAL "Release"))
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION "${CMAKE_BINARY_DIR}/Release")
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Release")
+# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Release")
 else()
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/skins DESTINATION "${CMAKE_BINARY_DIR}/Debug")
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Debug")
+# file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/config.ini DESTINATION "${CMAKE_BINARY_DIR}/Debug")
 endif()
+
+add_custom_command(TARGET trafficmonitor
+            PRE_BUILD
+            COMMAND echo ${COMPILE_TIME} >> ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/compile_time.txt)
+
+# has some problem
+# add_custom_command(TARGET trafficmonitor
+#             PRE_BUILD
+#             COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/print_compile_time.bat
+#             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/TrafficMonitor/)
 
 # set_target_properties(trafficmonitor PROPERTIES
 #     COMPILE_DEFINITIONS _AFXDLL,_UNICODE,UNICODE,_BIND_TO_CURRENT_CRT_VERSION,_BIND_TO_CURRENT_MFC_VERSION
